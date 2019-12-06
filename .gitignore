@@ -1,5 +1,5 @@
-
-venv/*
+tmp/*
+.venv/*
 
 # Created by https://www.gitignore.io/api/linux,python,code
 # Edit at https://www.gitignore.io/?templates=linux,python,code

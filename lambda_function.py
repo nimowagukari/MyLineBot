@@ -5,8 +5,9 @@ import json
 import logging
 import os
 import pprint
-import random
 import sys
+
+from message_controller import LineBotTextMassageHandler
 
 logger = logging.getLogger()
 logger.setLevel(logging.ERROR)
@@ -42,27 +43,10 @@ def lambda_handler(event, context):
 
     @handler.add(MessageEvent, message=TextMessage)
     def reply_from_textmessage(line_event):
-        text = line_event.message.text
-        if text == "さよなら！":
-            line_bot_api.reply_message(line_event.reply_token, StickerSendMessage(package_id='1',sticker_id='3'))
-            source_type = line_event.source.type
-            if source_type == "group":
-                gid = line_event.source.group_id
-                line_bot_api.leave_group(gid)
-            elif source_type == "room":
-                rid = line_event.source.room_id
-                line_bot_api.leave_room(rid)
-            else:
-                uid = line_event.source.user_id
-                reply = "個人トークからは抜けられません"
-                line_bot_api.push_message(uid, TextSendMessage(text=reply))
-        elif "しりとり" in text:
-            reply = "実装予定です"
-            line_bot_api.reply_message(line_event.reply_token, TextSendMessage(text=reply))
-        else:
-            reply = random.choice(["へぇ","すごいですね","なるほど","わかります","いいですね"])
-            line_bot_api.reply_message(line_event.reply_token, TextSendMessage(text=reply))
-
+        message_handler = LineBotTextMassageHandler(line_event)
+        reply = message_handler.reply()
+        line_bot_api.reply_message(line_event.reply_token, TextSendMessage(text=reply))
+        
     try:
         handler.handle(body, signature)
     except LineBotApiError as e:
