@@ -1,3 +1,12 @@
 {
-    "python.pythonPath": ".venv/bin/python"
+    "python.pythonPath": ".venv/bin/python",
+    "python.linting.pylintEnabled": false,
+    "python.linting.flake8Enabled": true,
+    "python.linting.enabled": true, 
+    "python.autoComplete.extraPaths": [
+        "~/.pyenv/versions/3.7.5/lib/python3.7", 
+        ".venv/lib/python3.7", 
+        ".venv/lib/python3.7/lib-dynload", 
+        ".venv/lib/python3.7/site-packages"
+    ]
 }
